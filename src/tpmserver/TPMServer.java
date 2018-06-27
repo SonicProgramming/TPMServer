@@ -12,10 +12,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -30,9 +30,10 @@ public class TPMServer {
 
     static long id = 0;
     
-    static Map<String, Long> byName = new HashMap<>();
-    static Map<Long, TexturePack> byIDs = new HashMap<>();
-    static List<Long> ids = new ArrayList();
+    //Tried to make these more concurrent than before
+    static Map<String, Long> byName = new ConcurrentHashMap<>();
+    static Map<Long, TexturePack> byIDs = new ConcurrentHashMap<>();
+    static List<Long> ids = new CopyOnWriteArrayList();
     static String updateMessage = "";
     
     /**
