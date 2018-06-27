@@ -33,7 +33,7 @@ public class TPMServer {
     //Tried to make these more concurrent than before
     static Map<String, Long> byName = new ConcurrentHashMap<>();
     static Map<Long, TexturePack> byIDs = new ConcurrentHashMap<>();
-    static List<Long> ids = new CopyOnWriteArrayList();
+    static List<Long> ids = new CopyOnWriteArrayList<>();
     static String updateMessage = "";
     
     /**
@@ -65,7 +65,7 @@ public class TPMServer {
             Logger.getLogger(TPMServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        //Let's fuckin' start it!
+        //Start it
         Server serv = new Server();
         Thread thr = new Thread(serv);
         thr.start();
@@ -199,6 +199,7 @@ class Server implements Runnable {
         }
         
         //Code 600, upload new TP
+        //This is a very bad piece of code, i definetly need to make it better once i figure out why my ObjectOutputStream fails
         private void run600(DataOutputStream dos, DataInputStream dis) throws IOException, ClassNotFoundException{
            TexturePack received = null;
            
@@ -230,6 +231,7 @@ class Server implements Runnable {
     
 }
 
+//Thread factory needed by CachedThreadPool
 class LoggingThreadFactory implements ThreadFactory
 {
 
